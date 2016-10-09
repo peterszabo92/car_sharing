@@ -6,4 +6,6 @@
 
     <color name="white">#FFFFFF</color>
     <color name="edittext_bg">#F7F7F7</color>
+    <color name="bottom_menu_item_disabled">#797979</color>
+    <color name="bottom_menu_item_enabled">#006fe0</color>
 </resources>

@@ -14,11 +14,11 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.hannesdorfmann.mosby.mvp.MvpFragment;
 
+import butterknife.ButterKnife;
 import hu.szakdolgozat.carsharing.R;
 
 
 public class MainMapFragment extends MvpFragment<MainMapView, MainMapPresenter> implements MainMapView, OnMapReadyCallback {
-
 
     public void injectPresenter(MainMapPresenter presenter) {
         this.presenter = presenter;
@@ -28,7 +28,12 @@ public class MainMapFragment extends MvpFragment<MainMapView, MainMapPresenter> 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_main_map, container, false);
+        init(root);
         return root;
+    }
+
+    private void init(View view) {
+        ButterKnife.bind(this, view);
     }
 
     @Override
@@ -50,4 +55,5 @@ public class MainMapFragment extends MvpFragment<MainMapView, MainMapPresenter> 
         LatLng BUDAPEST = new LatLng(47.49, 19.06);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(BUDAPEST, 10));
     }
+
 }

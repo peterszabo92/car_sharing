@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:weightSum="3">
+
+    <TextView
+        android:id="@+id/bottom_menu_item_left"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/icon_menu_reserve"
+        android:gravity="center"
+        android:text="@string/bottom_menu_start_rent"
+        android:textColor="@color/bottom_menu_item_enabled" />
+
+    <TextView
+        android:id="@+id/bottom_menu_item_center"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/icon_menu_map"
+        android:gravity="center"
+        android:text="@string/bottom_menu_map"
+        android:textColor="@color/bottom_menu_item_enabled" />
+
+    <TextView
+        android:id="@+id/bottom_menu_item_right"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/icon_menu_info"
+        android:gravity="center"
+        android:text="@string/bottom_menu_info"
+        android:textColor="@color/bottom_menu_item_enabled" />
+
+</LinearLayout>

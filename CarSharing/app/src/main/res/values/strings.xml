@@ -16,4 +16,7 @@
     <string name="user_name_edittext">Felhasználónév:</string>
     <string name="password_edittext">Jelszó:</string>
     <string name="login">Bejelentkezés</string>
+    <string name="bottom_menu_map">Térkép</string>
+    <string name="bottom_menu_start_rent">Bérlés indítás</string>
+    <string name="bottom_menu_info">Információk</string>
 </resources>

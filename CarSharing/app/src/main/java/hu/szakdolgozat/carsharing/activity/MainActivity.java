@@ -3,6 +3,9 @@ package hu.szakdolgozat.carsharing.activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
@@ -11,11 +14,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import hu.szakdolgozat.carsharing.R;
 import hu.szakdolgozat.carsharing.login.LoginFragment;
+import hu.szakdolgozat.carsharing.login.LoginListener;
 import hu.szakdolgozat.carsharing.login.LoginPresenter;
 import hu.szakdolgozat.carsharing.map.MainMapFragment;
 import hu.szakdolgozat.carsharing.map.MainMapPresenter;
 
-public class MainActivity extends MvpActivity<MainActivityView, MainActivityPresenter> implements MainActivityView {
+public class MainActivity extends MvpActivity<MainActivityView, MainActivityPresenter> implements MainActivityView, LoginListener {
+
+    private static final String LOGIN_FRAGMENT_TAG = "login-fragment-tag";
+    private static final String MAIN_MAP_FRAGMENT_TAG = "main-map-fragment-tag";
 
     @BindView(R.id.bottom_menu_item_center)
     TextView menuItemCenter;
@@ -23,6 +30,8 @@ public class MainActivity extends MvpActivity<MainActivityView, MainActivityPres
     TextView menuItemLeft;
     @BindView(R.id.bottom_menu_item_right)
     TextView menuItemRight;
+    @BindView(R.id.bottom_menu)
+    LinearLayout bottomMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +42,8 @@ public class MainActivity extends MvpActivity<MainActivityView, MainActivityPres
 
     private void init() {
         ButterKnife.bind(this);
-        menuItemCenter.getCompoundDrawables()[1].setLevel(1);
+        initBottomMenu();
+        bottomMenu.setVisibility(View.GONE);
     }
 
     @Override
@@ -51,10 +61,10 @@ public class MainActivity extends MvpActivity<MainActivityView, MainActivityPres
     @Override
     public void showLogin() {
         LoginFragment loginFragment = (LoginFragment) Fragment.instantiate(this, LoginFragment.class.getName());
-        loginFragment.injectPresenter(new LoginPresenter()); // Inject login fragment's presenter here
+        loginFragment.injectPresenter(new LoginPresenter(this)); // Inject login fragment's presenter here
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fullscreen_fragment_container, loginFragment, null)
+                .replace(R.id.fullscreen_fragment_container, loginFragment, LOGIN_FRAGMENT_TAG)
                 .commit();
     }
 
@@ -64,8 +74,33 @@ public class MainActivity extends MvpActivity<MainActivityView, MainActivityPres
         mainMapFragment.injectPresenter(new MainMapPresenter()); // Inject login fragment's presenter here
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.main_fragment_container, mainMapFragment, null)
+                .replace(R.id.main_fragment_container, mainMapFragment, MAIN_MAP_FRAGMENT_TAG)
                 .commit();
     }
 
+    private void removeLoginPage() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment loginFragment = fragmentManager.findFragmentByTag(LOGIN_FRAGMENT_TAG);
+        if (loginFragment != null) {
+            fragmentManager
+                    .beginTransaction()
+                    .remove(loginFragment)
+                    .commit();
+        }
+    }
+
+    @Override
+    public void onLoginSuccessful() {
+        removeLoginPage();
+        showMainMap();
+        bottomMenu.setVisibility(View.VISIBLE);
+    }
+
+    public void initBottomMenu() {
+        menuItemLeft.setTextColor(getResources().getColor(R.color.bottom_menu_item_disabled));
+        menuItemRight.setTextColor(getResources().getColor(R.color.bottom_menu_item_disabled));
+        menuItemLeft.getCompoundDrawables()[1].setLevel(0);
+        menuItemRight.getCompoundDrawables()[1].setLevel(0);
+        menuItemCenter.getCompoundDrawables()[1].setLevel(1);
+    }
 }

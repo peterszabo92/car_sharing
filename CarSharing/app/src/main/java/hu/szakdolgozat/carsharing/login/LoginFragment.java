@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.hannesdorfmann.mosby.mvp.MvpFragment;
 
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import hu.szakdolgozat.carsharing.R;
 
 public class LoginFragment extends MvpFragment<LoginView, LoginPresenter> {
@@ -35,10 +36,16 @@ public class LoginFragment extends MvpFragment<LoginView, LoginPresenter> {
 
     /**
      * Init views
+     *
      * @param view Fragment's root view
      */
     private void init(View view) {
         ButterKnife.bind(this, view);
 
+    }
+
+    @OnClick(R.id.login)
+    public void onLoginClick() {
+        getPresenter().onLoginClick();
     }
 }

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="25dp">
+
+    <ImageView
+        android:id="@+id/header_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:src="@drawable/login_header" />
+
+    <TextView
+        android:id="@+id/name_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/header_image"
+        android:layout_marginTop="25dp"
+        android:labelFor="@+id/login_username"
+        android:text="@string/user_name_edittext"
+        android:textColor="#646464" />
+
+    <EditText
+        android:id="@+id/login_username"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@+id/name_text"
+        android:background="@color/edittext_bg"
+        android:inputType="textNoSuggestions"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp"
+        android:textColor="#000" />
+
+    <TextView
+        android:id="@+id/password_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_username"
+        android:layout_marginTop="25dp"
+        android:labelFor="@+id/login_password"
+        android:text="@string/password_edittext"
+        android:textColor="#646464" />
+
+    <EditText
+        android:id="@+id/login_password"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@id/password_text"
+        android:background="@color/edittext_bg"
+        android:inputType="textPassword"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp"
+        android:textColor="#000" />
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/register"
+        android:background="@color/colorPrimary"
+        android:text="@string/login" />
+
+    <TextView
+        android:id="@+id/register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:text="Regisztráció"
+        android:textColor="@color/colorPrimary" />
+</RelativeLayout>

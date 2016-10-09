@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CarSharing</string>
+    <string name="app_name">Merlin Car</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -13,4 +13,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="user_name_edittext">Felhasználónév:</string>
+    <string name="password_edittext">Jelszó:</string>
+    <string name="login">Bejelentkezés</string>
 </resources>

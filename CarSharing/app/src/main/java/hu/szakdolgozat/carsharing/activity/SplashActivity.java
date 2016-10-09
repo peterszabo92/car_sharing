@@ -1,9 +1,11 @@
-package hu.szakdolgozat.carsharing;
+package hu.szakdolgozat.carsharing.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+
+import hu.szakdolgozat.carsharing.R;
 
 /**
  * Splash screen

@@ -71,7 +71,7 @@ public class MainActivity extends MvpActivity<MainActivityView, MainActivityPres
     @Override
     public void showMainMap() {
         MainMapFragment mainMapFragment = (MainMapFragment) Fragment.instantiate(this, MainMapFragment.class.getName());
-        mainMapFragment.injectPresenter(new MainMapPresenter()); // Inject login fragment's presenter here
+        mainMapFragment.injectPresenter(new MainMapPresenter(this)); // Inject login fragment's presenter here
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_fragment_container, mainMapFragment, MAIN_MAP_FRAGMENT_TAG)

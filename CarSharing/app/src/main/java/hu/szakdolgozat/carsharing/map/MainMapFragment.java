@@ -12,13 +12,19 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.hannesdorfmann.mosby.mvp.MvpFragment;
+
+import java.util.List;
 
 import butterknife.ButterKnife;
 import hu.szakdolgozat.carsharing.R;
 
 
 public class MainMapFragment extends MvpFragment<MainMapView, MainMapPresenter> implements MainMapView, OnMapReadyCallback {
+
+    private GoogleMap mGoogleMap;
 
     public void injectPresenter(MainMapPresenter presenter) {
         this.presenter = presenter;
@@ -43,6 +49,12 @@ public class MainMapFragment extends MvpFragment<MainMapView, MainMapPresenter> 
         mapFragment.getMapAsync(this);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getPresenter().onViewResumed();
+    }
+
     @NonNull
     @Override
     public MainMapPresenter createPresenter() {
@@ -51,9 +63,17 @@ public class MainMapFragment extends MvpFragment<MainMapView, MainMapPresenter> 
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        googleMap.setMyLocationEnabled(true);   // Show user's location
+        mGoogleMap = googleMap;
+        mGoogleMap.setMyLocationEnabled(true);   // Show user's location
         LatLng BUDAPEST = new LatLng(47.49, 19.06);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(BUDAPEST, 10));
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(BUDAPEST, 10));
+        getPresenter().onMapReady();
     }
 
+    @Override
+    public void showMarkers(List<MarkerOptions> markers) {
+        for (MarkerOptions marker : markers) {
+            mGoogleMap.addMarker(marker);
+        }
+    }
 }

@@ -15,7 +15,7 @@ import java.util.List;
 import hu.szakdolgozat.carsharing.Common;
 import hu.szakdolgozat.carsharing.R;
 import hu.szakdolgozat.carsharing.data.DataProvider;
-import hu.szakdolgozat.carsharing.model.Car;
+import hu.szakdolgozat.carsharing.data.model.Car;
 
 
 public class MainMapPresenter extends MvpBasePresenter<MainMapView> {
@@ -29,7 +29,9 @@ public class MainMapPresenter extends MvpBasePresenter<MainMapView> {
     }
 
     void onViewResumed() {
-
+        if (isViewAttached()) {
+            getView().loadCarDetails(DataProvider.getCarDataProvider().getCarDataMap().valueAt(0));
+        }
     }
 
     void onMapReady() {

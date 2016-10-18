@@ -19,4 +19,10 @@
     <string name="bottom_menu_map">Térkép</string>
     <string name="bottom_menu_start_rent">Bérlés indítás</string>
     <string name="bottom_menu_info">Információk</string>
+    <string name="rent">Bérlés</string>
+    <string name="reserve">Foglalás</string>
+    <string name="plate_number">Rendszám: %1$s</string>
+    <string name="type">Típus: %1$s</string>
+    <string name="fuel_type">Üzemanyag: %1$s</string>
+    <string name="price">Ár: %1$s Ft</string>
 </resources>

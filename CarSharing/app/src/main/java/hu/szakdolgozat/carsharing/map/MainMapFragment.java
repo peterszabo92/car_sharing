@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -18,13 +19,20 @@ import com.hannesdorfmann.mosby.mvp.MvpFragment;
 
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import hu.szakdolgozat.carsharing.R;
+import hu.szakdolgozat.carsharing.data.model.Car;
+import hu.szakdolgozat.carsharing.viewholder.MapCarDetailHolder;
 
 
 public class MainMapFragment extends MvpFragment<MainMapView, MainMapPresenter> implements MainMapView, OnMapReadyCallback {
 
+    @BindView(R.id.map_car_details)
+    LinearLayout mapCarDetails;
+
     private GoogleMap mGoogleMap;
+    private MapCarDetailHolder carDetailHolder;
 
     public void injectPresenter(MainMapPresenter presenter) {
         this.presenter = presenter;
@@ -40,6 +48,7 @@ public class MainMapFragment extends MvpFragment<MainMapView, MainMapPresenter> 
 
     private void init(View view) {
         ButterKnife.bind(this, view);
+        carDetailHolder = new MapCarDetailHolder(mapCarDetails);
     }
 
     @Override
@@ -76,4 +85,11 @@ public class MainMapFragment extends MvpFragment<MainMapView, MainMapPresenter> 
             mGoogleMap.addMarker(marker);
         }
     }
+
+    @Override
+    public void loadCarDetails(Car car) {
+        carDetailHolder.update(car);
+    }
+
+
 }

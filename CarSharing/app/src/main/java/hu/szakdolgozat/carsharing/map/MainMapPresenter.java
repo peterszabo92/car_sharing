@@ -14,7 +14,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import hu.szakdolgozat.carsharing.BaseApplication;
 import hu.szakdolgozat.carsharing.Common;
 import hu.szakdolgozat.carsharing.R;
 import hu.szakdolgozat.carsharing.controller.CarDataController;

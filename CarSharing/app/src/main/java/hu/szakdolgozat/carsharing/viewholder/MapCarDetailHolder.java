@@ -1,22 +1,24 @@
 package hu.szakdolgozat.carsharing.viewholder;
 
 
-import android.animation.ObjectAnimator;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import hu.szakdolgozat.carsharing.BaseApplication;
+import hu.szakdolgozat.carsharing.CarSharingApplication;
 import hu.szakdolgozat.carsharing.R;
+import hu.szakdolgozat.carsharing.controller.ImageLoaderController;
 import hu.szakdolgozat.carsharing.data.model.Car;
 
 public class MapCarDetailHolder {
 
+    // Views
     @BindView(R.id.map_car_details)
     LinearLayout root;
 
@@ -43,10 +45,9 @@ public class MapCarDetailHolder {
     }
 
     public void update(Car car) {
-
-        BaseApplication.PICASSO
-                .load(car.pictureUrl)
-                .into(carPicture);
+        CarSharingApplication.getApplicationComponent()
+                .imageLoaderController()
+                .loadImageFromUrl(carPicture, car.pictureUrl);
 
         plateNumber.setText(plateNumber.getContext().getString(R.string.plate_number, car.plateNumber));
         type.setText(type.getContext().getString(R.string.type, car.type));

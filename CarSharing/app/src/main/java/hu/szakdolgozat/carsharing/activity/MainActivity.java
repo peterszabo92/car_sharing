@@ -17,6 +17,7 @@ import butterknife.ButterKnife;
 import hu.szakdolgozat.carsharing.R;
 import hu.szakdolgozat.carsharing.component.DaggerCarDataComponent;
 import hu.szakdolgozat.carsharing.controller.CarDataController;
+import hu.szakdolgozat.carsharing.data.FirebaseDatabaseManager;
 import hu.szakdolgozat.carsharing.login.LoginFragment;
 import hu.szakdolgozat.carsharing.login.LoginListener;
 import hu.szakdolgozat.carsharing.login.LoginPresenter;
@@ -58,6 +59,12 @@ public class MainActivity extends MvpActivity<MainActivityView, MainActivityPres
     protected void onStart() {
         super.onStart();
         getPresenter().onViewStarted();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        databaseTest();
     }
 
     @NonNull
@@ -110,5 +117,9 @@ public class MainActivity extends MvpActivity<MainActivityView, MainActivityPres
         menuItemLeft.getCompoundDrawables()[1].setLevel(0);
         menuItemRight.getCompoundDrawables()[1].setLevel(0);
         menuItemCenter.getCompoundDrawables()[1].setLevel(1);
+    }
+
+    private void databaseTest() {
+        FirebaseDatabaseManager.INSTANCE.writeData("Test data", "test");
     }
 }

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1045929114868",
+    "firebase_url": "https://carsharing-4e893.firebaseio.com",
+    "project_id": "carsharing-4e893",
+    "storage_bucket": "carsharing-4e893.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1045929114868:android:0a81e661cab47bb8",
+        "android_client_info": {
+          "package_name": "hu.szakdolgozat.carsharing"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1045929114868-8679njqo4ieqb0mbakndn9mc23hai9j7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsuIZGWUc72JRdo4yvF_vlIbQjT3nv3SE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

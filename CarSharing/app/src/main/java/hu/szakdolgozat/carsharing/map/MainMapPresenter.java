@@ -12,32 +12,39 @@ import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import hu.szakdolgozat.carsharing.BaseApplication;
 import hu.szakdolgozat.carsharing.Common;
 import hu.szakdolgozat.carsharing.R;
-import hu.szakdolgozat.carsharing.data.DataProvider;
+import hu.szakdolgozat.carsharing.controller.CarDataController;
 import hu.szakdolgozat.carsharing.data.model.Car;
 
 
 public class MainMapPresenter extends MvpBasePresenter<MainMapView> {
 
+
+    CarDataController carDataController;
     private Activity activity;
     private LayoutInflater mLayoutInflater;
 
-    public MainMapPresenter(Activity activity) {
+    @Inject
+    public MainMapPresenter(Activity activity, CarDataController carDataController) {
         this.activity = activity;
+        this.carDataController = carDataController;
         mLayoutInflater = LayoutInflater.from(activity);
     }
 
     void onViewResumed() {
         if (isViewAttached()) {
-            getView().loadCarDetails(DataProvider.getCarDataProvider().getCarDataMap().valueAt(0));
+            getView().loadCarDetails(carDataController.getCarDataMap().valueAt(0));
         }
     }
 
     void onMapReady() {
         if (isViewAttached()) {
-            List<Car> carList = new ArrayList<>(DataProvider.getCarDataProvider().getCarDataMap().values());
-            getView().showMarkers(getMarkersFromCarList(carList));
+            List<Car> carList = new ArrayList<>(carDataController.getCarDataMap().values());
+            getView().showMarkers(carList, getMarkersFromCarList(carList));
         }
     }
 
@@ -48,7 +55,6 @@ public class MainMapPresenter extends MvpBasePresenter<MainMapView> {
         for (Car car : cars) {
             MarkerOptions markerOptions = new MarkerOptions()
                     .position(car.position)
-                    .title(car.type)
                     .icon(BitmapDescriptorFactory.fromBitmap(marketBitmap))
                     .anchor(0.5f, 1f);
             markerOptionsList.add(markerOptions);

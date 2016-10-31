@@ -1,9 +1,12 @@
 package hu.szakdolgozat.carsharing.viewholder;
 
 
+import android.animation.ObjectAnimator;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -13,6 +16,9 @@ import hu.szakdolgozat.carsharing.R;
 import hu.szakdolgozat.carsharing.data.model.Car;
 
 public class MapCarDetailHolder {
+
+    @BindView(R.id.map_car_details)
+    LinearLayout root;
 
     @BindView(R.id.car_pic)
     ImageView carPicture;
@@ -33,6 +39,7 @@ public class MapCarDetailHolder {
 
     public MapCarDetailHolder(View itemView) {
         ButterKnife.bind(this, itemView);
+        root.setAlpha(0);
     }
 
     public void update(Car car) {

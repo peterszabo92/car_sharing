@@ -9,7 +9,7 @@ import hu.szakdolgozat.carsharing.data.model.Car;
 
 public interface MainMapView extends MvpView {
 
-    void showMarkers(List<MarkerOptions> markers);
+    void showMarkers(List<Car> carList, List<MarkerOptions> markers);
 
     void loadCarDetails(Car car);
 

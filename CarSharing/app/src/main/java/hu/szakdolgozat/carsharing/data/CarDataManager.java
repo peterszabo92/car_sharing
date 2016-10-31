@@ -5,12 +5,10 @@ import android.support.v4.util.ArrayMap;
 import com.google.android.gms.maps.model.LatLng;
 
 import hu.szakdolgozat.carsharing.TestUtils;
-import hu.szakdolgozat.carsharing.data.interfaces.CarDataProvider;
+import hu.szakdolgozat.carsharing.controller.CarDataController;
 import hu.szakdolgozat.carsharing.data.model.Car;
 
-public class CarDataManager implements CarDataProvider {
-
-    public static CarDataManager INSTANCE = new CarDataManager();
+public class CarDataManager implements CarDataController {
 
     private static final String[] testCarNames = {"Audi", "Ford", "Toyota", "Skoda", "Smart", "BMW"};
 

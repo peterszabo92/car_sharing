@@ -10,9 +10,13 @@ import android.widget.TextView;
 
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import hu.szakdolgozat.carsharing.R;
+import hu.szakdolgozat.carsharing.component.DaggerCarDataComponent;
+import hu.szakdolgozat.carsharing.controller.CarDataController;
 import hu.szakdolgozat.carsharing.login.LoginFragment;
 import hu.szakdolgozat.carsharing.login.LoginListener;
 import hu.szakdolgozat.carsharing.login.LoginPresenter;
@@ -33,6 +37,9 @@ public class MainActivity extends MvpActivity<MainActivityView, MainActivityPres
     @BindView(R.id.bottom_menu)
     LinearLayout bottomMenu;
 
+    @Inject
+    CarDataController mCarController;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +48,7 @@ public class MainActivity extends MvpActivity<MainActivityView, MainActivityPres
     }
 
     private void init() {
+        DaggerCarDataComponent.builder().build().inject(this);
         ButterKnife.bind(this);
         initBottomMenu();
         bottomMenu.setVisibility(View.GONE);
@@ -71,7 +79,7 @@ public class MainActivity extends MvpActivity<MainActivityView, MainActivityPres
     @Override
     public void showMainMap() {
         MainMapFragment mainMapFragment = (MainMapFragment) Fragment.instantiate(this, MainMapFragment.class.getName());
-        mainMapFragment.injectPresenter(new MainMapPresenter(this)); // Inject login fragment's presenter here
+        mainMapFragment.injectPresenter(new MainMapPresenter(this, mCarController)); // Inject login fragment's presenter here
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_fragment_container, mainMapFragment, MAIN_MAP_FRAGMENT_TAG)

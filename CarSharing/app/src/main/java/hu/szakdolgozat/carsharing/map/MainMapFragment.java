@@ -3,6 +3,7 @@ package hu.szakdolgozat.carsharing.map;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.util.ArrayMap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,22 @@ public class MainMapFragment extends MvpFragment<MainMapView, MainMapPresenter> 
 
     private GoogleMap mGoogleMap;
     private MapCarDetailHolder carDetailHolder;
+    private ArrayMap<Marker, Long> mapsMarkerMap;
+
+    GoogleMap.OnMarkerClickListener markerClickListener = new GoogleMap.OnMarkerClickListener() {
+        @Override
+        public boolean onMarkerClick(Marker marker) {
+            mapCarDetails.setVisibility(View.VISIBLE);
+            return false;
+        }
+    };
+
+    GoogleMap.OnMapClickListener mapClickListener = new GoogleMap.OnMapClickListener() {
+        @Override
+        public void onMapClick(LatLng latLng) {
+            mapCarDetails.setVisibility(View.INVISIBLE);
+        }
+    };
 
     public void injectPresenter(MainMapPresenter presenter) {
         this.presenter = presenter;
@@ -48,7 +65,9 @@ public class MainMapFragment extends MvpFragment<MainMapView, MainMapPresenter> 
 
     private void init(View view) {
         ButterKnife.bind(this, view);
+        mapsMarkerMap = new ArrayMap<>();
         carDetailHolder = new MapCarDetailHolder(mapCarDetails);
+        mapCarDetails.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -73,16 +92,24 @@ public class MainMapFragment extends MvpFragment<MainMapView, MainMapPresenter> 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
-        mGoogleMap.setMyLocationEnabled(true);   // Show user's location
-        LatLng BUDAPEST = new LatLng(47.49, 19.06);
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(BUDAPEST, 10));
+        initMap();
         getPresenter().onMapReady();
     }
 
+    private void initMap() {
+        mGoogleMap.setMyLocationEnabled(true);   // Show user's location
+        LatLng BUDAPEST = new LatLng(47.49, 19.06);
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(BUDAPEST, 10));
+        mGoogleMap.setOnMarkerClickListener(markerClickListener);
+        mGoogleMap.setOnMapClickListener(mapClickListener);
+    }
+
     @Override
-    public void showMarkers(List<MarkerOptions> markers) {
-        for (MarkerOptions marker : markers) {
-            mGoogleMap.addMarker(marker);
+    public void showMarkers(List<Car> carList, List<MarkerOptions> markers) {
+        for (int i = 0, size = carList.size(); i < size; i++) {
+            MarkerOptions markerOptions = markers.get(i);
+            Marker m = mGoogleMap.addMarker(markerOptions);
+            mapsMarkerMap.put(m, carList.get(i).id);
         }
     }
 

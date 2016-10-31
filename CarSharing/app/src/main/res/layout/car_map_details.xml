@@ -7,6 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:background="@drawable/rounded_white_bg"
+    android:clickable="false"
     android:elevation="5dp"
     android:orientation="vertical"
     android:padding="10dp">
@@ -38,6 +39,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
+                android:clickable="true"
                 android:src="@drawable/ic_restore_blue"
                 app:backgroundTint="@color/edittext_bg"
                 app:fabSize="normal" />
@@ -66,6 +68,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
+                android:clickable="true"
                 android:src="@drawable/ic_lock_white"
                 app:backgroundTint="@color/colorPrimary"
                 app:fabSize="normal" />

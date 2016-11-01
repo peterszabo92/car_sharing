@@ -122,6 +122,5 @@ public class MainActivity extends MvpActivity<MainActivityView, MainActivityPres
 
     private void databaseTest() {
         FirebaseDatabaseManager.INSTANCE.writeData(new CarDataManager().generateRandomCars(10), "cars");
-        FirebaseDatabaseManager.INSTANCE.readData("cars");
     }
 }

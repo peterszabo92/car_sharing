@@ -1,11 +1,13 @@
 package hu.szakdolgozat.carsharing.controller;
 
-import android.support.v4.util.ArrayMap;
+import java.util.List;
 
 import hu.szakdolgozat.carsharing.data.model.Car;
+import rx.Observable;
 
 public interface CarDataController {
 
-    ArrayMap<Long, Car> getCarDataMap();
+    Observable<List<Car>> getCarDataMap();
+    Car getCarById(Long id);
 
 }

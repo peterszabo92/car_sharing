@@ -16,15 +16,20 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.common.base.Preconditions;
 import com.hannesdorfmann.mosby.mvp.MvpFragment;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.Provides;
 import hu.szakdolgozat.carsharing.R;
+import hu.szakdolgozat.carsharing.data.CarDataManager;
 import hu.szakdolgozat.carsharing.data.model.Car;
 import hu.szakdolgozat.carsharing.viewholder.MapCarDetailHolder;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 
 public class MainMapFragment extends MvpFragment<MainMapView, MainMapPresenter> implements MainMapView, OnMapReadyCallback {
@@ -39,7 +44,7 @@ public class MainMapFragment extends MvpFragment<MainMapView, MainMapPresenter> 
     GoogleMap.OnMarkerClickListener markerClickListener = new GoogleMap.OnMarkerClickListener() {
         @Override
         public boolean onMarkerClick(Marker marker) {
-            mapCarDetails.setVisibility(View.VISIBLE);
+            getPresenter().loadCarDetails(mapsMarkerMap.get(marker));
             return false;
         }
     };
@@ -115,7 +120,9 @@ public class MainMapFragment extends MvpFragment<MainMapView, MainMapPresenter> 
 
     @Override
     public void loadCarDetails(Car car) {
+        checkNotNull(car);
         carDetailHolder.update(car);
+        mapCarDetails.setVisibility(View.VISIBLE);
     }
 
 

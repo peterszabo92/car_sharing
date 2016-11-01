@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
@@ -18,6 +19,9 @@ import hu.szakdolgozat.carsharing.Common;
 import hu.szakdolgozat.carsharing.R;
 import hu.szakdolgozat.carsharing.controller.CarDataController;
 import hu.szakdolgozat.carsharing.data.model.Car;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 public class MainMapPresenter extends MvpBasePresenter<MainMapView> {
@@ -35,16 +39,30 @@ public class MainMapPresenter extends MvpBasePresenter<MainMapView> {
     }
 
     void onViewResumed() {
-        if (isViewAttached()) {
-            getView().loadCarDetails(carDataController.getCarDataMap().valueAt(0));
-        }
     }
 
     void onMapReady() {
-        if (isViewAttached()) {
-            List<Car> carList = new ArrayList<>(carDataController.getCarDataMap().values());
-            getView().showMarkers(carList, getMarkersFromCarList(carList));
-        }
+        carDataController.getCarDataMap()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<Car>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<Car> carList) {
+                        if (isViewAttached()) {
+                            getView().showMarkers(carList, getMarkersFromCarList(carList));
+                        }
+                    }
+                });
     }
 
     private List<MarkerOptions> getMarkersFromCarList(List<Car> cars) {
@@ -53,12 +71,18 @@ public class MainMapPresenter extends MvpBasePresenter<MainMapView> {
         List<MarkerOptions> markerOptionsList = new ArrayList<>();
         for (Car car : cars) {
             MarkerOptions markerOptions = new MarkerOptions()
-                    .position(car.position)
+                    .position(new LatLng(car.position.latitude, car.position.longitude))
                     .icon(BitmapDescriptorFactory.fromBitmap(marketBitmap))
                     .anchor(0.5f, 1f);
             markerOptionsList.add(markerOptions);
         }
         return markerOptionsList;
+    }
+
+    public void loadCarDetails(Long carId) {
+        if (isViewAttached()) {
+            getView().loadCarDetails(carDataController.getCarById(carId));
+        }
     }
 
 }

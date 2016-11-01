@@ -2,28 +2,24 @@ package hu.szakdolgozat.carsharing.data.model;
 
 import android.support.annotation.NonNull;
 
-import com.google.android.gms.maps.model.LatLng;
-
 public class Car {
 
-    @NonNull
     public Long id;
-    @NonNull
-    public LatLng position;
-    @NonNull
+    public CarPosition position;
     public String type;
-    @NonNull
     public String pictureUrl;
-    @NonNull
     public String plateNumber;
-    @NonNull
     public FuelType fuelType;
 
     public int price;
 
+    // Firebase conversion requires an empty default constructor
+    public Car() {
+    }
+
     public Car(
             @NonNull Long id,
-            @NonNull LatLng position,
+            @NonNull CarPosition position,
             @NonNull String type,
             @NonNull String plateNumber,
             @NonNull FuelType fuelType,

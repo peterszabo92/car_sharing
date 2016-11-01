@@ -4,6 +4,9 @@ import android.support.v4.util.ArrayMap;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import hu.szakdolgozat.carsharing.TestUtils;
 import hu.szakdolgozat.carsharing.controller.CarDataController;
 import hu.szakdolgozat.carsharing.data.model.Car;
@@ -33,5 +36,24 @@ public class CarDataManager implements CarDataController {
             carDataMap.put((long) i, car);
         }
         return carDataMap;
+    }
+
+    public List<Car> generateRandomCars(int numberOfCars) {
+        List<Car> cars = new ArrayList<>();
+        for (int i = 0; i < numberOfCars; i++) {
+            LatLng pos = new LatLng(
+                    TestUtils.getRandomDoubleInRange(47.431311, 47.571348),
+                    TestUtils.getRandomDoubleInRange(18.971101, 19.163952));
+            Car car = new Car(
+                    (long) i,
+                    pos,
+                    testCarNames[(int) (Math.random() * 6) % 6],
+                    "ABC-123",
+                    Car.FuelType.values()[(int) (Math.random() * (Car.FuelType.values().length))],
+                    2500,
+                    "https://www.enterprise.com/content/dam/global-vehicle-images/cars/FORD_FOCU_2012-1.png");
+            cars.add(car);
+        }
+        return cars;
     }
 }

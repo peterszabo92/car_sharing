@@ -8,7 +8,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.List;
+
 import hu.szakdolgozat.carsharing.controller.DatabaseController;
+import hu.szakdolgozat.carsharing.data.model.Car;
 
 
 public class FirebaseDatabaseManager implements DatabaseController {
@@ -18,7 +21,7 @@ public class FirebaseDatabaseManager implements DatabaseController {
     private static DatabaseReference mRef;
 
     @Override
-    public void writeData(String data, String key) {
+    public void writeData(List<Car> data, String key) {
         mRef = mFirebaseDatabase.getReference(key);
         mRef.setValue(data);
     }
@@ -28,7 +31,7 @@ public class FirebaseDatabaseManager implements DatabaseController {
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.wtf("TAG", (String) dataSnapshot.getValue());
+                Log.wtf("TAG", dataSnapshot.getValue().toString());
             }
 
             @Override

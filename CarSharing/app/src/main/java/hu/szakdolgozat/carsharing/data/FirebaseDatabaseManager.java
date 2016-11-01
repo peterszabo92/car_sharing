@@ -1,7 +1,5 @@
 package hu.szakdolgozat.carsharing.data;
 
-import android.util.Log;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -12,6 +10,7 @@ import java.util.List;
 
 import hu.szakdolgozat.carsharing.controller.DatabaseController;
 import hu.szakdolgozat.carsharing.data.model.Car;
+import hu.szakdolgozat.carsharing.util.Logger;
 
 
 public class FirebaseDatabaseManager implements DatabaseController {
@@ -31,7 +30,7 @@ public class FirebaseDatabaseManager implements DatabaseController {
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.wtf("TAG", dataSnapshot.getValue().toString());
+                Logger.d(dataSnapshot.getValue().toString());
             }
 
             @Override

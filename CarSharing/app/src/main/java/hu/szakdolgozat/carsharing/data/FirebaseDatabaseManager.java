@@ -24,6 +24,9 @@ public class FirebaseDatabaseManager implements DatabaseController {
 
     @Override
     public void readData(String key, ValueEventListener listener) {
+        if(mRef == null) {
+            mRef = mFirebaseDatabase.getReference(key);
+        }
         mRef.addListenerForSingleValueEvent(listener);
     }
 }

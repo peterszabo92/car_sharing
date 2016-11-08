@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:background="@drawable/rounded_white_bg"
-    android:clickable="false"
+    android:clickable="true"
     android:elevation="5dp"
     android:orientation="vertical"
     android:padding="10dp">
@@ -19,12 +19,26 @@
         android:orientation="horizontal"
         android:weightSum="2">
 
-        <ImageView
-            android:id="@+id/car_pic"
+        <FrameLayout
             android:layout_width="0dp"
-            android:layout_height="120dp"
             android:layout_weight="2"
-            tools:src="@drawable/mock_car_pic" />
+            android:layout_height="120dp">
+
+            <ImageView
+                android:id="@+id/car_pic"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:src="@drawable/mock_car_pic"
+                android:visibility="invisible"/>
+
+            <ProgressBar
+                android:id="@+id/car_image_progress_bar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:progressDrawable="@color/colorPrimary"
+                android:layout_gravity="center"/>
+
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -94,14 +108,13 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight=".5"
+            android:layout_weight=".45"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/car_plate_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="15dp"
                 android:layout_marginStart="15dp"
                 android:textColor="#000"
                 tools:text="@string/plate_number" />
@@ -110,7 +123,6 @@
                 android:id="@+id/car_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="15dp"
                 android:layout_marginStart="15dp"
                 android:textColor="#000"
                 tools:text="@string/type" />
@@ -120,14 +132,13 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight=".5"
+            android:layout_weight=".55"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/car_fuel_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="15dp"
                 android:layout_marginStart="15dp"
                 android:textColor="#000"
                 tools:text="@string/fuel_type" />
@@ -136,7 +147,6 @@
                 android:id="@+id/car_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="15dp"
                 android:layout_marginStart="15dp"
                 android:textColor="#000"
                 tools:text="@string/price" />

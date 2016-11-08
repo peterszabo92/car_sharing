@@ -50,7 +50,7 @@ public class MainActivity extends MvpActivity<MainActivityView, MainActivityPres
     }
 
     private void init() {
-        DaggerCarDataComponent.builder().build().inject(this);
+        DaggerCarDataComponent.create().inject(this);
         ButterKnife.bind(this);
         initBottomMenu();
         bottomMenu.setVisibility(View.GONE);
@@ -65,7 +65,7 @@ public class MainActivity extends MvpActivity<MainActivityView, MainActivityPres
     @Override
     protected void onResume() {
         super.onResume();
-        databaseTest();
+        //databaseTest();
     }
 
     @NonNull

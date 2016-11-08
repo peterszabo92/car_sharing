@@ -8,4 +8,5 @@
     <color name="edittext_bg">#F7F7F7</color>
     <color name="bottom_menu_item_disabled">#797979</color>
     <color name="bottom_menu_item_enabled">#006fe0</color>
+    <color name="car_details_overlay_bg">#ffffff</color>
 </resources>

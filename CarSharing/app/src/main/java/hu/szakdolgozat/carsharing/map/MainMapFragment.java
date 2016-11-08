@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -104,6 +105,8 @@ public class MainMapFragment extends MvpFragment<MainMapView, MainMapPresenter> 
     private void initMap() {
         mGoogleMap.setMyLocationEnabled(true);   // Show user's location
         LatLng BUDAPEST = new LatLng(47.49, 19.06);
+        mGoogleMap.setBuildingsEnabled(false);
+        mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(BUDAPEST, 10));
         mGoogleMap.setOnMarkerClickListener(markerClickListener);
         mGoogleMap.setOnMapClickListener(mapClickListener);

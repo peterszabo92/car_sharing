@@ -3,9 +3,12 @@ package hu.szakdolgozat.carsharing.controller;
 import android.content.Context;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+
+import hu.szakdolgozat.carsharing.callback.ImageLoadCallback;
 
 public class PicassoImageLoader implements ImageLoaderController {
 
@@ -18,6 +21,20 @@ public class PicassoImageLoader implements ImageLoaderController {
     @Override
     public void loadImageFromUrl(ImageView imageView, String url) {
         mPicasso.load(url).into(imageView);
+    }
+    @Override
+    public void loadImageFromUrl(ImageView imageView, String url, final ImageLoadCallback callback) {
+        mPicasso.load(url).into(imageView, new Callback() {
+            @Override
+            public void onSuccess() {
+                callback.onSuccess();
+            }
+
+            @Override
+            public void onError() {
+                callback.onError();
+            }
+        });
     }
 
     @Override

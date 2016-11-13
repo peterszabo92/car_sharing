@@ -13,6 +13,4 @@ public interface CarDataComponent {
 
     void inject(MainActivity mainActivity);
 
-    CarDataController provideCarDataController();
-
 }

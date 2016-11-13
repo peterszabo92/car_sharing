@@ -2,5 +2,7 @@
 <resources>
 
     <string name="google_maps_api_key">AIzaSyDP0dsDJpaAcQusOqzEtxQcZXMW2C-WspQ</string>
+    <string name="test_username">teszt_felhasznalo@szakdolgozat.hu</string>
+    <string name="test_password">012345</string>
 
 </resources>

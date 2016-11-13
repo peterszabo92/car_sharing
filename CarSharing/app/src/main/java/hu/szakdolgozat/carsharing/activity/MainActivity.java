@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
 
@@ -105,13 +106,6 @@ public class MainActivity extends MvpActivity<MainActivityView, MainActivityPres
         }
     }
 
-    @Override
-    public void onLoginSuccessful() {
-        removeLoginPage();
-        showMainMap();
-        bottomMenu.setVisibility(View.VISIBLE);
-    }
-
     public void initBottomMenu() {
         menuItemLeft.setTextColor(getResources().getColor(R.color.bottom_menu_item_disabled));
         menuItemRight.setTextColor(getResources().getColor(R.color.bottom_menu_item_disabled));
@@ -122,5 +116,17 @@ public class MainActivity extends MvpActivity<MainActivityView, MainActivityPres
 
     private void databaseTest() {
         FirebaseDatabaseManager.INSTANCE.writeData(new CarDataManager().generateRandomCars(10), "cars");
+    }
+
+    @Override
+    public void onLoginSuccess() {
+        removeLoginPage();
+        showMainMap();
+        bottomMenu.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onLoginError(Throwable throwable) {
+        Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
     }
 }

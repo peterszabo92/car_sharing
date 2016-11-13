@@ -14,6 +14,7 @@
         completions."
     </string>
     <string name="user_name_edittext">Felhasználónév:</string>
+    <string name="email_edittext">E-mail:</string>
     <string name="password_edittext">Jelszó:</string>
     <string name="login">Bejelentkezés</string>
     <string name="bottom_menu_map">Térkép</string>

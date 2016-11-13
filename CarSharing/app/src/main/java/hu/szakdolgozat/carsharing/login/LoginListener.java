@@ -1,6 +1,6 @@
 package hu.szakdolgozat.carsharing.login;
 
-
 public interface LoginListener {
-    void onLoginSuccessful();
+    void onLoginSuccess();
+    void onLoginError(Throwable throwable);
 }

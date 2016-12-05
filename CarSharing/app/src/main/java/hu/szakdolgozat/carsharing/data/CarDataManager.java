@@ -84,4 +84,9 @@ public class CarDataManager implements CarDataController {
     public Car getCarById(Long id) {
         return carsMap.get(id);
     }
+
+    @Override
+    public Observable<Boolean> reserveCar(Long carId) {
+        return null;
+    }
 }

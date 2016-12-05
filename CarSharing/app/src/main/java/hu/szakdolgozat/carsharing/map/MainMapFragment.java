@@ -70,7 +70,7 @@ public class MainMapFragment extends MvpFragment<MainMapView, MainMapPresenter> 
     private void init(View view) {
         ButterKnife.bind(this, view);
         mapsMarkerMap = new ArrayMap<>();
-        carDetailHolder = new MapCarDetailHolder(mapCarDetails, this);
+        carDetailHolder = new MapCarDetailHolder(mapCarDetails, getPresenter().getCurrentUserId(), this);
         mapCarDetails.setVisibility(View.INVISIBLE);
     }
 

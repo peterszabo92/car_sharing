@@ -26,6 +26,8 @@ public class MapCarDetailHolder {
     LinearLayout reserveLayout;
     @BindView(R.id.rent_layout)
     LinearLayout rentLayout;
+    @BindView(R.id.cancel_reservation_layout)
+    LinearLayout cancelLayout;
 
     @BindView(R.id.car_pic)
     ImageView carPicture;
@@ -34,6 +36,8 @@ public class MapCarDetailHolder {
     FloatingActionButton reserve;
     @BindView(R.id.car_map_detail_rent)
     FloatingActionButton rent;
+    @BindView(R.id.cancel_reservation)
+    FloatingActionButton cancel;
 
     @BindView(R.id.car_plate_number)
     TextView plateNumber;
@@ -52,10 +56,12 @@ public class MapCarDetailHolder {
 
     ImageLoadCallback callback;
     View.OnClickListener rentClickListener;
+    String userId;
 
-    public MapCarDetailHolder(View itemView, @NonNull View.OnClickListener rentClickListener) {
+    public MapCarDetailHolder(View itemView, @NonNull String userId, @NonNull View.OnClickListener rentClickListener) {
         ButterKnife.bind(this, itemView);
         this.rentClickListener = rentClickListener;
+        this.userId = userId;
         root.setAlpha(0);
         rent.setOnClickListener(rentClickListener);
         callback = new ImageLoadCallback() {
@@ -75,16 +81,25 @@ public class MapCarDetailHolder {
 
     public void update(Car car) {
 
-        if(car.reserved) {
-            reservedText.setVisibility(View.VISIBLE);
-            reserveLayout.setVisibility(View.INVISIBLE);
-            rentLayout.setVisibility(View.INVISIBLE);
+        if (car.reserved != null) {
+            if (car.reserved.equals(userId)) {
+                cancelLayout.setVisibility(View.VISIBLE);
+                reservedText.setVisibility(View.INVISIBLE);
+                reserveLayout.setVisibility(View.INVISIBLE);
+                rentLayout.setVisibility(View.INVISIBLE);
+            } else {
+                cancelLayout.setVisibility(View.INVISIBLE);
+                reservedText.setVisibility(View.VISIBLE);
+                reserveLayout.setVisibility(View.INVISIBLE);
+                rentLayout.setVisibility(View.INVISIBLE);
+            }
         } else {
+            cancelLayout.setVisibility(View.INVISIBLE);
             reservedText.setVisibility(View.INVISIBLE);
             reserveLayout.setVisibility(View.VISIBLE);
             rentLayout.setVisibility(View.VISIBLE);
         }
-        
+
         carPicture.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.VISIBLE);
         CarSharingApplication.getApplicationComponent()

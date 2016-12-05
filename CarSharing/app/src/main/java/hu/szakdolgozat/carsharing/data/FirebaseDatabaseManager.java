@@ -29,4 +29,9 @@ public class FirebaseDatabaseManager implements DatabaseController {
         }
         mRef.addListenerForSingleValueEvent(listener);
     }
+
+    @Override
+    public void refreshCarData(Car car) {
+
+    }
 }

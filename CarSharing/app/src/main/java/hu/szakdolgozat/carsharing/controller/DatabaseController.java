@@ -12,4 +12,5 @@ public interface DatabaseController {
 
     void readData(String key, ValueEventListener listener);
 
+    void refreshCarData(Car car);
 }

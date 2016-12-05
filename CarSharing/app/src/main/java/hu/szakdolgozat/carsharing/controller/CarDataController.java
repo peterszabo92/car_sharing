@@ -10,4 +10,6 @@ public interface CarDataController {
     Observable<List<Car>> getCarDataMap();
     Car getCarById(Long id);
 
+    Observable<Boolean> reserveCar(Long carId);
+
 }

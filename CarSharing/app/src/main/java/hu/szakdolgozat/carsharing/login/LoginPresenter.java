@@ -15,13 +15,16 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class LoginPresenter extends MvpBasePresenter<LoginView> {
 
     private LoginListener loginListener;
-    @Inject
     UserController userController;
 
-    public LoginPresenter(@NonNull LoginListener listener) {
-        checkNotNull(listener);
-        loginListener = listener;
-        CarSharingApplication.getControllerComponent().inject(this);
+    @Inject
+    public LoginPresenter(UserController userController) {
+        this.userController = userController;
+    }
+
+    public void setLoginListener(@NonNull LoginListener loginListener) {
+        checkNotNull(loginListener);
+        this.loginListener = loginListener;
     }
 
     public void onLoginClick(String email, String password) {

@@ -3,12 +3,17 @@
 
     <item
         android:drawable="@drawable/marker_icon_reserved"
+        android:maxLevel="1"
+        android:minLevel="1" />
+
+    <item
+        android:drawable="@drawable/marker_icon_blue"
         android:maxLevel="0"
         android:minLevel="0" />
 
     <item
-        android:drawable="@drawable/marker_icon_blue"
-        android:maxLevel="1"
-        android:minLevel="1" />
+        android:drawable="@drawable/marker_icon_orange"
+        android:maxLevel="2"
+        android:minLevel="2" />
 
 </level-list>

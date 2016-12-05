@@ -19,6 +19,7 @@ import butterknife.ButterKnife;
 import hu.szakdolgozat.carsharing.CarSharingApplication;
 import hu.szakdolgozat.carsharing.R;
 import hu.szakdolgozat.carsharing.controller.CarDataController;
+import hu.szakdolgozat.carsharing.controller.UserController;
 import hu.szakdolgozat.carsharing.data.CarDataManager;
 import hu.szakdolgozat.carsharing.data.FirebaseDatabaseManager;
 import hu.szakdolgozat.carsharing.login.LoginFragment;
@@ -44,6 +45,8 @@ public class MainActivity extends MvpActivity<MainActivityView, MainActivityPres
 
     @Inject
     CarDataController mCarController;
+    @Inject
+    UserController mUserController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +83,9 @@ public class MainActivity extends MvpActivity<MainActivityView, MainActivityPres
     @Override
     public void showLogin() {
         LoginFragment loginFragment = (LoginFragment) Fragment.instantiate(this, LoginFragment.class.getName());
-        loginFragment.injectPresenter(new LoginPresenter(this)); // Inject login fragment's presenter here
+        LoginPresenter loginPresenter = CarSharingApplication.getApplicationComponent().getLoginPresenter();
+        loginPresenter.setLoginListener(this);
+        loginFragment.injectPresenter(loginPresenter); // Inject login fragment's presenter here
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fullscreen_fragment_container, loginFragment, LOGIN_FRAGMENT_TAG)
@@ -90,7 +95,9 @@ public class MainActivity extends MvpActivity<MainActivityView, MainActivityPres
     @Override
     public void showMainMap() {
         MainMapFragment mainMapFragment = (MainMapFragment) Fragment.instantiate(this, MainMapFragment.class.getName());
-        mainMapFragment.injectPresenter(new MainMapPresenter(this, mCarController)); // Inject login fragment's presenter here
+        MainMapPresenter mainMapPresenter = CarSharingApplication.getApplicationComponent().getMainMapPresenter();
+        mainMapPresenter.setActivity(this);
+        mainMapFragment.injectPresenter(mainMapPresenter); // Inject login fragment's presenter here
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_fragment_container, mainMapFragment, MAIN_MAP_FRAGMENT_TAG)

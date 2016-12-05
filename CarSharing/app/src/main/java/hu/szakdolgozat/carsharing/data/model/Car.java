@@ -10,7 +10,7 @@ public class Car {
     public String pictureUrl;
     public String plateNumber;
     public FuelType fuelType;
-    public boolean reserved = false;
+    public String reserved;
     public boolean inactive;
 
     public int price;

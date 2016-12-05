@@ -35,6 +35,11 @@ public class UserManager implements UserController {
         }
     }
 
+    @Override
+    public String getCurrentUserId() {
+        return auth.getCurrentUser().getUid();
+    }
+
     private boolean validation(String email, String password, LoginListener listener) {
         try {
             loginValidation(email, password);

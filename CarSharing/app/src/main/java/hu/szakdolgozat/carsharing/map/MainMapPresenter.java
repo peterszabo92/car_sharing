@@ -19,6 +19,7 @@ import javax.inject.Inject;
 import hu.szakdolgozat.carsharing.Common;
 import hu.szakdolgozat.carsharing.R;
 import hu.szakdolgozat.carsharing.controller.CarDataController;
+import hu.szakdolgozat.carsharing.controller.UserController;
 import hu.szakdolgozat.carsharing.data.model.Car;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -29,17 +30,23 @@ public class MainMapPresenter extends MvpBasePresenter<MainMapView> {
 
 
     CarDataController carDataController;
+    UserController userController;
     private Activity activity;
     private LayoutInflater mLayoutInflater;
 
     @Inject
-    public MainMapPresenter(Activity activity, CarDataController carDataController) {
-        this.activity = activity;
+    public MainMapPresenter(UserController userController, CarDataController carDataController) {
+        this.userController = userController;
         this.carDataController = carDataController;
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
         mLayoutInflater = LayoutInflater.from(activity);
     }
 
-    void onViewResumed() {
+    public String getCurrentUserId() {
+        return userController.getCurrentUserId();
     }
 
     void onMapReady() {
@@ -71,7 +78,7 @@ public class MainMapPresenter extends MvpBasePresenter<MainMapView> {
         Bitmap marketBitmap;
         List<MarkerOptions> markerOptionsList = new ArrayList<>();
         for (Car car : cars) {
-            ((ImageView) markerView.findViewById(R.id.markerView)).getDrawable().setLevel(car.reserved ? 0 : 1);
+            ((ImageView) markerView.findViewById(R.id.markerView)).getDrawable().setLevel(car.reserved != null ? (car.reserved.equals(userController.getCurrentUserId()) ? 2 : 1) : 0);
             marketBitmap = Common.getBitmapFromView(activity, markerView);
             MarkerOptions markerOptions = new MarkerOptions()
                     .position(new LatLng(car.position.latitude, car.position.longitude))

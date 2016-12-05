@@ -11,4 +11,5 @@
     <color name="car_details_overlay_bg">#ffffff</color>
     <color name="transparent">#00000000</color>
     <color name="text_gray">#202020</color>
+    <color name="red">#ca2424</color>
 </resources>

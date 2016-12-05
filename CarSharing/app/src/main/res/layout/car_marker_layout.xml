@@ -4,8 +4,9 @@
     android:layout_height="match_parent">
 
     <ImageView
+        android:id="@+id/markerView"
         android:layout_width="30dp"
         android:layout_height="45dp"
-        android:src="@drawable/marker_icon_blue" />
+        android:src="@drawable/marker_icon" />
 
 </FrameLayout>

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -67,9 +68,11 @@ public class MainMapPresenter extends MvpBasePresenter<MainMapView> {
 
     private List<MarkerOptions> getMarkersFromCarList(List<Car> cars) {
         View markerView = mLayoutInflater.inflate(R.layout.car_marker_layout, null, false);
-        Bitmap marketBitmap = Common.getBitmapFromView(activity, markerView);
+        Bitmap marketBitmap;
         List<MarkerOptions> markerOptionsList = new ArrayList<>();
         for (Car car : cars) {
+            ((ImageView) markerView.findViewById(R.id.markerView)).getDrawable().setLevel(car.reserved ? 0 : 1);
+            marketBitmap = Common.getBitmapFromView(activity, markerView);
             MarkerOptions markerOptions = new MarkerOptions()
                     .position(new LatLng(car.position.latitude, car.position.longitude))
                     .icon(BitmapDescriptorFactory.fromBitmap(marketBitmap))

@@ -10,6 +10,8 @@ public class Car {
     public String pictureUrl;
     public String plateNumber;
     public FuelType fuelType;
+    public boolean reserved = false;
+    public boolean inactive;
 
     public int price;
 
@@ -42,7 +44,7 @@ public class Car {
 
         private final String name;
 
-        private FuelType(String s) {
+        FuelType(String s) {
             name = s;
         }
 

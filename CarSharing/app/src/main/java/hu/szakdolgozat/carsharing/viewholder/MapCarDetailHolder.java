@@ -22,6 +22,11 @@ public class MapCarDetailHolder {
     @BindView(R.id.map_car_details)
     LinearLayout root;
 
+    @BindView(R.id.reserve_layout)
+    LinearLayout reserveLayout;
+    @BindView(R.id.rent_layout)
+    LinearLayout rentLayout;
+
     @BindView(R.id.car_pic)
     ImageView carPicture;
 
@@ -38,6 +43,9 @@ public class MapCarDetailHolder {
     TextView fuelType;
     @BindView(R.id.car_price)
     TextView price;
+
+    @BindView(R.id.reserved_text)
+    TextView reservedText;
 
     @BindView(R.id.car_image_progress_bar)
     ProgressBar progressBar;
@@ -66,6 +74,17 @@ public class MapCarDetailHolder {
     }
 
     public void update(Car car) {
+
+        if(car.reserved) {
+            reservedText.setVisibility(View.VISIBLE);
+            reserveLayout.setVisibility(View.INVISIBLE);
+            rentLayout.setVisibility(View.INVISIBLE);
+        } else {
+            reservedText.setVisibility(View.INVISIBLE);
+            reserveLayout.setVisibility(View.VISIBLE);
+            rentLayout.setVisibility(View.VISIBLE);
+        }
+        
         carPicture.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.VISIBLE);
         CarSharingApplication.getApplicationComponent()

@@ -7,7 +7,7 @@
         android:minLevel="0" />
 
     <item
-        android:drawable="@drawable/ic_restore"
+        android:drawable="@drawable/ic_restore_blue"
         android:maxLevel="1"
         android:minLevel="1" />
 

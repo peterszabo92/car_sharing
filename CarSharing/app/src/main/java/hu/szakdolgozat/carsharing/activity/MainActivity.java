@@ -16,8 +16,10 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import hu.szakdolgozat.carsharing.CarSharingApplication;
 import hu.szakdolgozat.carsharing.R;
+import hu.szakdolgozat.carsharing.about.AboutFragment;
 import hu.szakdolgozat.carsharing.controller.CarDataController;
 import hu.szakdolgozat.carsharing.controller.UserController;
 import hu.szakdolgozat.carsharing.data.CarDataManager;
@@ -33,6 +35,7 @@ public class MainActivity extends MvpActivity<MainActivityView, MainActivityPres
 
     private static final String LOGIN_FRAGMENT_TAG = "login-fragment-tag";
     private static final String MAIN_MAP_FRAGMENT_TAG = "main-map-fragment-tag";
+    private static final String ABOUT_FRAGMENT_TAG = "about-fragment-tag";
 
     @BindView(R.id.bottom_menu_item_center)
     TextView menuItemCenter;
@@ -47,6 +50,8 @@ public class MainActivity extends MvpActivity<MainActivityView, MainActivityPres
     CarDataController mCarController;
     @Inject
     UserController mUserController;
+
+    private MainMapFragment mainMapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,13 +99,25 @@ public class MainActivity extends MvpActivity<MainActivityView, MainActivityPres
 
     @Override
     public void showMainMap() {
-        MainMapFragment mainMapFragment = (MainMapFragment) Fragment.instantiate(this, MainMapFragment.class.getName());
-        MainMapPresenter mainMapPresenter = CarSharingApplication.getApplicationComponent().getMainMapPresenter();
-        mainMapPresenter.setActivity(this);
-        mainMapFragment.injectPresenter(mainMapPresenter); // Inject login fragment's presenter here
-        getSupportFragmentManager()
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if (mainMapFragment == null) {
+            mainMapFragment = (MainMapFragment) Fragment.instantiate(this, MainMapFragment.class.getName());
+            MainMapPresenter mainMapPresenter = CarSharingApplication.getApplicationComponent().getMainMapPresenter();
+            mainMapPresenter.setActivity(this);
+            mainMapFragment.injectPresenter(mainMapPresenter); // Inject login fragment's presenter here
+        }
+        fragmentManager
                 .beginTransaction()
                 .replace(R.id.main_fragment_container, mainMapFragment, MAIN_MAP_FRAGMENT_TAG)
+                .commit();
+    }
+
+    @Override
+    public void showAbout() {
+        AboutFragment aboutFragment = (AboutFragment) Fragment.instantiate(this, AboutFragment.class.getName());
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.main_fragment_container, aboutFragment, ABOUT_FRAGMENT_TAG)
                 .commit();
     }
 
@@ -132,6 +149,16 @@ public class MainActivity extends MvpActivity<MainActivityView, MainActivityPres
         menuItemCenter.getCompoundDrawables()[1].setLevel(1);
     }
 
+    private void resetBottomMenu() {
+        menuItemLeft.setTextColor(getResources().getColor(R.color.bottom_menu_item_disabled));
+        menuItemRight.setTextColor(getResources().getColor(R.color.bottom_menu_item_disabled));
+        menuItemCenter.setTextColor(getResources().getColor(R.color.bottom_menu_item_disabled));
+
+        menuItemLeft.getCompoundDrawables()[1].setLevel(0);
+        menuItemRight.getCompoundDrawables()[1].setLevel(0);
+        menuItemCenter.getCompoundDrawables()[1].setLevel(0);
+    }
+
     private void databaseTest() {
         FirebaseDatabaseManager.INSTANCE.writeData(new CarDataManager().generateRandomCars(10), "cars");
     }
@@ -147,4 +174,38 @@ public class MainActivity extends MvpActivity<MainActivityView, MainActivityPres
     public void onLoginError(Throwable throwable) {
         Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
     }
+
+    @OnClick(R.id.bottom_menu_item_left)
+    public void previousRides() {
+        if (menuItemLeft.getCompoundDrawables()[1].getLevel() != 1) {
+            resetBottomMenu();
+            menuItemLeft.setTextColor(getResources().getColor(R.color.bottom_menu_item_enabled));
+            menuItemLeft.getCompoundDrawables()[1].setLevel(1);
+        }
+    }
+
+    @OnClick(R.id.bottom_menu_item_center)
+    public void map() {
+        if (menuItemCenter.getCompoundDrawables()[1].getLevel() != 1) {
+            Fragment previousFragment = getSupportFragmentManager().findFragmentByTag(ABOUT_FRAGMENT_TAG);
+            if (previousFragment != null) {
+                getSupportFragmentManager().beginTransaction().remove(previousFragment).commit();
+            }
+            resetBottomMenu();
+            menuItemCenter.setTextColor(getResources().getColor(R.color.bottom_menu_item_enabled));
+            menuItemCenter.getCompoundDrawables()[1].setLevel(1);
+        }
+    }
+
+    @OnClick(R.id.bottom_menu_item_right)
+    public void about() {
+        if (menuItemRight.getCompoundDrawables()[1].getLevel() != 1) {
+            resetBottomMenu();
+            menuItemRight.setTextColor(getResources().getColor(R.color.bottom_menu_item_enabled));
+            menuItemRight.getCompoundDrawables()[1].setLevel(1);
+
+            showAbout();
+        }
+    }
+
 }

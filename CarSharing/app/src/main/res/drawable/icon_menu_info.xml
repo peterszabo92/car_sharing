@@ -7,7 +7,7 @@
         android:maxLevel="0"/>
 
     <item
-        android:drawable="@drawable/ic_error_outline_disabled"
+        android:drawable="@drawable/ic_error_outline_enabled"
         android:minLevel="1"
         android:maxLevel="1"/>
 

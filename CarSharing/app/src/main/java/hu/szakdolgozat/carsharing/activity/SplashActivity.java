@@ -20,7 +20,7 @@ import hu.szakdolgozat.carsharing.R;
  */
 public class SplashActivity extends AppCompatActivity {
 
-    private static final int SPLASH_TIME = 1000;
+    private static final int SPLASH_TIME = 500;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

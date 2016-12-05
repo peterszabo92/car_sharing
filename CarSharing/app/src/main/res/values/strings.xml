@@ -18,12 +18,16 @@
     <string name="password_edittext">Jelszó:</string>
     <string name="login">Bejelentkezés</string>
     <string name="bottom_menu_map">Térkép</string>
-    <string name="bottom_menu_start_rent">Bérlés indítás</string>
-    <string name="bottom_menu_info">Információk</string>
+    <string name="bottom_menu_start_rent">Előző bérléseim</string>
+    <string name="bottom_menu_info">Az appról</string>
     <string name="rent">Bérlés</string>
     <string name="reserve">Foglalás</string>
     <string name="plate_number">Rendszám: %1$s</string>
     <string name="type">Típus: %1$s</string>
     <string name="fuel_type">Üzemanyag: %1$s</string>
     <string name="price">Ár: %1$s Ft</string>
+    <string name="app_desc">Az alkalmazás célja, hogy példát mutasson az okostelefonok járművekkel
+        kapcsolatos használati lehetőségeire. Jelen esetben egy fiktív carsharing rendszer mobilalkalmazását kívántam szimulálni,
+        amin keresztül lehetőségünk van egy kiválasztott járművet lefoglalni vagy kibérelni, illetve az előző bérléseket megtekinteni.
+    </string>
 </resources>

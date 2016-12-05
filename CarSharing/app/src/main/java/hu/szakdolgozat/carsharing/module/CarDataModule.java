@@ -4,8 +4,8 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import hu.szakdolgozat.carsharing.data.CarDataManager;
 import hu.szakdolgozat.carsharing.controller.CarDataController;
+import hu.szakdolgozat.carsharing.data.CarDataManager;
 
 @Module
 public class CarDataModule {

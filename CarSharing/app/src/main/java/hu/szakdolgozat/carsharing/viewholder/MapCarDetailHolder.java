@@ -1,6 +1,7 @@
 package hu.szakdolgozat.carsharing.viewholder;
 
 
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.ImageView;
@@ -42,10 +43,13 @@ public class MapCarDetailHolder {
     ProgressBar progressBar;
 
     ImageLoadCallback callback;
+    View.OnClickListener rentClickListener;
 
-    public MapCarDetailHolder(View itemView) {
+    public MapCarDetailHolder(View itemView, @NonNull View.OnClickListener rentClickListener) {
         ButterKnife.bind(this, itemView);
+        this.rentClickListener = rentClickListener;
         root.setAlpha(0);
+        rent.setOnClickListener(rentClickListener);
         callback = new ImageLoadCallback() {
             @Override
             public void onSuccess() {

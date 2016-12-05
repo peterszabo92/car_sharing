@@ -7,7 +7,6 @@ class MainActivityPresenter extends MvpBasePresenter<MainActivityView> {
 
     void onViewStarted() {
         if (isViewAttached()) {
-            getView().showLogin();
         }
     }
 

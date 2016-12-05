@@ -9,4 +9,6 @@
     <color name="bottom_menu_item_disabled">#797979</color>
     <color name="bottom_menu_item_enabled">#006fe0</color>
     <color name="car_details_overlay_bg">#ffffff</color>
+    <color name="transparent">#00000000</color>
+    <color name="text_gray">#202020</color>
 </resources>

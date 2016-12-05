@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -17,27 +16,26 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.common.base.Preconditions;
 import com.hannesdorfmann.mosby.mvp.MvpFragment;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import dagger.Provides;
 import hu.szakdolgozat.carsharing.R;
-import hu.szakdolgozat.carsharing.data.CarDataManager;
+import hu.szakdolgozat.carsharing.activity.MainActivityView;
 import hu.szakdolgozat.carsharing.data.model.Car;
 import hu.szakdolgozat.carsharing.viewholder.MapCarDetailHolder;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 
-public class MainMapFragment extends MvpFragment<MainMapView, MainMapPresenter> implements MainMapView, OnMapReadyCallback {
+public class MainMapFragment extends MvpFragment<MainMapView, MainMapPresenter> implements MainMapView, OnMapReadyCallback, View.OnClickListener {
 
     @BindView(R.id.map_car_details)
     LinearLayout mapCarDetails;
 
+    private Car selectedCar;
     private GoogleMap mGoogleMap;
     private MapCarDetailHolder carDetailHolder;
     private ArrayMap<Marker, Long> mapsMarkerMap;
@@ -72,7 +70,7 @@ public class MainMapFragment extends MvpFragment<MainMapView, MainMapPresenter> 
     private void init(View view) {
         ButterKnife.bind(this, view);
         mapsMarkerMap = new ArrayMap<>();
-        carDetailHolder = new MapCarDetailHolder(mapCarDetails);
+        carDetailHolder = new MapCarDetailHolder(mapCarDetails, this);
         mapCarDetails.setVisibility(View.INVISIBLE);
     }
 
@@ -81,12 +79,6 @@ public class MainMapFragment extends MvpFragment<MainMapView, MainMapPresenter> 
         super.onViewCreated(view, savedInstanceState);
         MapFragment mapFragment = (MapFragment) getActivity().getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getPresenter().onViewResumed();
     }
 
     @NonNull
@@ -124,9 +116,17 @@ public class MainMapFragment extends MvpFragment<MainMapView, MainMapPresenter> 
     @Override
     public void loadCarDetails(Car car) {
         checkNotNull(car);
+        selectedCar = car;
         carDetailHolder.update(car);
         mapCarDetails.setVisibility(View.VISIBLE);
     }
 
 
+    @Override
+    public void onClick(View view) {
+        int viewId = view.getId();
+        if (viewId == R.id.car_map_detail_rent) {
+            ((MainActivityView) getActivity()).startRentScreen(selectedCar.id);
+        }
+    }
 }

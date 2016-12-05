@@ -1,5 +1,6 @@
 package hu.szakdolgozat.carsharing.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -15,8 +16,8 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import hu.szakdolgozat.carsharing.CarSharingApplication;
 import hu.szakdolgozat.carsharing.R;
-import hu.szakdolgozat.carsharing.component.DaggerCarDataComponent;
 import hu.szakdolgozat.carsharing.controller.CarDataController;
 import hu.szakdolgozat.carsharing.data.CarDataManager;
 import hu.szakdolgozat.carsharing.data.FirebaseDatabaseManager;
@@ -25,6 +26,7 @@ import hu.szakdolgozat.carsharing.login.LoginListener;
 import hu.szakdolgozat.carsharing.login.LoginPresenter;
 import hu.szakdolgozat.carsharing.map.MainMapFragment;
 import hu.szakdolgozat.carsharing.map.MainMapPresenter;
+import hu.szakdolgozat.carsharing.rent.RentActivity;
 
 public class MainActivity extends MvpActivity<MainActivityView, MainActivityPresenter> implements MainActivityView, LoginListener {
 
@@ -48,10 +50,11 @@ public class MainActivity extends MvpActivity<MainActivityView, MainActivityPres
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
+        showLogin();
     }
 
     private void init() {
-        DaggerCarDataComponent.create().inject(this);
+        CarSharingApplication.getApplicationComponent().inject(this);
         ButterKnife.bind(this);
         initBottomMenu();
         bottomMenu.setVisibility(View.GONE);
@@ -60,7 +63,6 @@ public class MainActivity extends MvpActivity<MainActivityView, MainActivityPres
     @Override
     protected void onStart() {
         super.onStart();
-        getPresenter().onViewStarted();
     }
 
     @Override
@@ -93,6 +95,15 @@ public class MainActivity extends MvpActivity<MainActivityView, MainActivityPres
                 .beginTransaction()
                 .replace(R.id.main_fragment_container, mainMapFragment, MAIN_MAP_FRAGMENT_TAG)
                 .commit();
+    }
+
+    @Override
+    public void startRentScreen(Long carId) {
+        Intent intent = new Intent(this, RentActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putLong("car-id", carId);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     private void removeLoginPage() {

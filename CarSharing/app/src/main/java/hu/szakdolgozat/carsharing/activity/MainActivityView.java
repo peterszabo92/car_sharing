@@ -6,5 +6,5 @@ public interface MainActivityView extends MvpView {
 
     void showLogin();
     void showMainMap();
-
+    void startRentScreen(Long carId);
 }

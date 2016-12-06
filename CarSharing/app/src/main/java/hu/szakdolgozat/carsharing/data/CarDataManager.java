@@ -4,7 +4,6 @@ import android.support.v4.util.ArrayMap;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONException;
@@ -12,9 +11,12 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import hu.szakdolgozat.carsharing.BuildConfig;
 import hu.szakdolgozat.carsharing.TestUtils;
 import hu.szakdolgozat.carsharing.controller.CarDataController;
+import hu.szakdolgozat.carsharing.controller.UserController;
 import hu.szakdolgozat.carsharing.data.model.Car;
 import hu.szakdolgozat.carsharing.data.model.CarPosition;
 import rx.Observable;
@@ -25,31 +27,41 @@ public class CarDataManager implements CarDataController {
     private static final String[] testCarNames = {"Audi", "Ford", "Toyota", "Skoda", "Smart", "BMW"};
     private ArrayMap<Long, Car> carsMap = new ArrayMap<>();
 
+    private UserController userController;
+
+    private ValueEventListener valueEventListener;
+
+    @Inject
+    public CarDataManager(UserController userController) {
+        this.userController = userController;
+    }
+
     @Override
     public Observable<List<Car>> getCarDataMap() {
         return Observable.create(new Observable.OnSubscribe<List<Car>>() {
             @Override
             public void call(final Subscriber<? super List<Car>> subscriber) {
-                new FirebaseDatabaseManager().readData("cars", new ValueEventListener() {
+                valueEventListener = new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         try {
-                            GenericTypeIndicator<List<Car>> type = new GenericTypeIndicator<List<Car>>() {
-                            };
-                            List<Car> carList = dataSnapshot.getValue(type);
+                            List<Car> carList = new ArrayList<Car>();
 
-                            for (int i = 0, size = carList.size(); i < size; i++) {
-                                Car car = carList.get(i);
+                            for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                                Car car = dataSnapshot1.getValue(Car.class);
+                                carList.add(car);
                                 carsMap.put(car.id, car);
                             }
 
                             subscriber.onNext(carList);
                             subscriber.onCompleted();
+                            valueEventListener = null;
                         } catch (Exception e) {
                             if (BuildConfig.DEBUG) {
                                 e.printStackTrace();
                             }
                             subscriber.onError(new JSONException(""));
+                            valueEventListener = null;
                         }
                     }
 
@@ -57,11 +69,13 @@ public class CarDataManager implements CarDataController {
                     public void onCancelled(DatabaseError databaseError) {
                         subscriber.onError(new Throwable("Database error"));
                     }
-                });
+                };
+                new FirebaseDatabaseManager().readData("cars", valueEventListener);
             }
         });
     }
 
+    @Override
     public List<Car> generateRandomCars(int numberOfCars) {
         List<Car> cars = new ArrayList<>();
         for (int i = 0; i < numberOfCars; i++) {
@@ -81,12 +95,34 @@ public class CarDataManager implements CarDataController {
         return cars;
     }
 
+    @Override
+    public boolean hasUserActiveReservation() {
+        String userId = userController.getCurrentUserId();
+        for (int i = 0, size = carsMap.size(); i < size; i++) {
+            if (carsMap.valueAt(i).reserved != null && carsMap.valueAt(i).reserved.equals(userId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Car getCarById(Long id) {
         return carsMap.get(id);
     }
 
     @Override
-    public Observable<Boolean> reserveCar(Long carId) {
-        return null;
+    public Observable<Void> reserveCar(Long carId) {
+        FirebaseDatabaseManager firebaseDatabaseManager = new FirebaseDatabaseManager();
+        Car car = getCarById(carId);
+        car.reserved = userController.getCurrentUserId();
+        return firebaseDatabaseManager.refreshCarData(car);
+    }
+
+    @Override
+    public Observable<Void> cancelReservation(Long carId) {
+        FirebaseDatabaseManager firebaseDatabaseManager = new FirebaseDatabaseManager();
+        Car car = getCarById(carId);
+        car.reserved = null;
+        return firebaseDatabaseManager.refreshCarData(car);
     }
 }

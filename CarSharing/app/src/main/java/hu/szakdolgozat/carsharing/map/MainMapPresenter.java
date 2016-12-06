@@ -22,6 +22,7 @@ import hu.szakdolgozat.carsharing.controller.CarDataController;
 import hu.szakdolgozat.carsharing.controller.UserController;
 import hu.szakdolgozat.carsharing.data.model.Car;
 import rx.Observer;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -50,6 +51,10 @@ public class MainMapPresenter extends MvpBasePresenter<MainMapView> {
     }
 
     void onMapReady() {
+        refreshCarDataMap();
+    }
+
+    public void refreshCarDataMap() {
         carDataController.getCarDataMap()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -61,13 +66,14 @@ public class MainMapPresenter extends MvpBasePresenter<MainMapView> {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        e.printStackTrace();
                     }
 
                     @Override
                     public void onNext(List<Car> carList) {
                         if (isViewAttached()) {
                             getView().showMarkers(carList, getMarkersFromCarList(carList));
+                            getView().refreshCarDetails();
                         }
                     }
                 });
@@ -93,6 +99,60 @@ public class MainMapPresenter extends MvpBasePresenter<MainMapView> {
         if (isViewAttached()) {
             getView().loadCarDetails(carDataController.getCarById(carId));
         }
+    }
+
+    public Car getCarById(Long carId) {
+        return carDataController.getCarById(carId);
+    }
+
+    public void reserveCar(Car car) {
+        if (!carDataController.hasUserActiveReservation()) {
+            carDataController.reserveCar(car.id)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<Void>() {
+                        @Override
+                        public void onCompleted() {
+                            refreshCarDataMap();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            e.printStackTrace();
+                        }
+
+                        @Override
+                        public void onNext(Void aVoid) {
+
+                        }
+                    });
+        } else {
+            if (isViewAttached()) {
+                getView().showToastMessage("Önnek már van élő foglalása");
+            }
+        }
+    }
+
+    public void cancelReservation(Car car) {
+        carDataController.cancelReservation(car.id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Void>() {
+                    @Override
+                    public void onCompleted() {
+                        refreshCarDataMap();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(Void aVoid) {
+
+                    }
+                });
     }
 
 }

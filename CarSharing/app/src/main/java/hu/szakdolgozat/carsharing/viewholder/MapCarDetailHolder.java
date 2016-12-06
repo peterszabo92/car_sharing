@@ -55,15 +55,17 @@ public class MapCarDetailHolder {
     ProgressBar progressBar;
 
     ImageLoadCallback callback;
-    View.OnClickListener rentClickListener;
+    View.OnClickListener buttonClickListener;
     String userId;
 
-    public MapCarDetailHolder(View itemView, @NonNull String userId, @NonNull View.OnClickListener rentClickListener) {
+    public MapCarDetailHolder(View itemView, @NonNull String userId, @NonNull View.OnClickListener buttonClickListener) {
         ButterKnife.bind(this, itemView);
-        this.rentClickListener = rentClickListener;
+        this.buttonClickListener = buttonClickListener;
         this.userId = userId;
         root.setAlpha(0);
-        rent.setOnClickListener(rentClickListener);
+        rent.setOnClickListener(buttonClickListener);
+        reserve.setOnClickListener(buttonClickListener);
+        cancel.setOnClickListener(buttonClickListener);
         callback = new ImageLoadCallback() {
             @Override
             public void onSuccess() {
@@ -84,12 +86,12 @@ public class MapCarDetailHolder {
         if (car.reserved != null) {
             if (car.reserved.equals(userId)) {
                 cancelLayout.setVisibility(View.VISIBLE);
+                rentLayout.setVisibility(View.VISIBLE);
                 reservedText.setVisibility(View.INVISIBLE);
                 reserveLayout.setVisibility(View.INVISIBLE);
-                rentLayout.setVisibility(View.INVISIBLE);
             } else {
-                cancelLayout.setVisibility(View.INVISIBLE);
                 reservedText.setVisibility(View.VISIBLE);
+                cancelLayout.setVisibility(View.INVISIBLE);
                 reserveLayout.setVisibility(View.INVISIBLE);
                 rentLayout.setVisibility(View.INVISIBLE);
             }

@@ -13,4 +13,8 @@ public interface MainMapView extends MvpView {
 
     void loadCarDetails(Car car);
 
+    void refreshCarDetails();
+
+    void showToastMessage(String msg);
+
 }

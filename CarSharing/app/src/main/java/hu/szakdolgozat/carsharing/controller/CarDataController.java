@@ -8,8 +8,15 @@ import rx.Observable;
 public interface CarDataController {
 
     Observable<List<Car>> getCarDataMap();
+
     Car getCarById(Long id);
 
-    Observable<Boolean> reserveCar(Long carId);
+    Observable<Void> reserveCar(Long carId);
+
+    Observable<Void> cancelReservation(Long carId);
+
+    List<Car> generateRandomCars(int numberOfCars);
+
+    boolean hasUserActiveReservation();
 
 }

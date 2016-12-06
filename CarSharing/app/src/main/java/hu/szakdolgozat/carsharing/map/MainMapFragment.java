@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -121,12 +122,32 @@ public class MainMapFragment extends MvpFragment<MainMapView, MainMapPresenter> 
         mapCarDetails.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void refreshCarDetails() {
+        if (mapCarDetails.getVisibility() == View.VISIBLE) {
+            loadCarDetails(getPresenter().getCarById(selectedCar.id));
+        }
+    }
+
+    @Override
+    public void showToastMessage(String msg) {
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+    }
+
 
     @Override
     public void onClick(View view) {
         int viewId = view.getId();
-        if (viewId == R.id.car_map_detail_rent) {
-            ((MainActivityView) getActivity()).startRentScreen(selectedCar.id);
+        switch (viewId) {
+            case R.id.car_map_detail_rent:
+                ((MainActivityView) getActivity()).startRentScreen(selectedCar.id);
+                break;
+            case R.id.car_map_detail_reserve:
+                getPresenter().reserveCar(selectedCar);
+                break;
+            case R.id.cancel_reservation:
+                getPresenter().cancelReservation(selectedCar);
+                break;
         }
     }
 }

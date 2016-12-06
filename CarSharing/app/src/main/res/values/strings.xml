@@ -25,7 +25,7 @@
     <string name="plate_number">Rendszám: %1$s</string>
     <string name="type">Típus: %1$s</string>
     <string name="fuel_type">Üzemanyag: %1$s</string>
-    <string name="price">Ár: %1$s Ft</string>
+    <string name="price">Ár: %1$s Ft / óra</string>
     <string name="app_desc">Az alkalmazás célja, hogy példát mutasson az okostelefonok járművekkel
         kapcsolatos használati lehetőségeire. Jelen esetben egy fiktív carsharing rendszer mobilalkalmazását kívántam szimulálni,
         amin keresztül lehetőségünk van egy kiválasztott járművet lefoglalni vagy kibérelni, illetve az előző bérléseket megtekinteni.

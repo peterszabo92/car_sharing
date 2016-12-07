@@ -6,6 +6,7 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import hu.szakdolgozat.carsharing.activity.MainActivity;
+import hu.szakdolgozat.carsharing.cars.CarsPresenter;
 import hu.szakdolgozat.carsharing.controller.ImageLoaderController;
 import hu.szakdolgozat.carsharing.login.LoginPresenter;
 import hu.szakdolgozat.carsharing.map.MainMapPresenter;
@@ -27,4 +28,5 @@ public interface ApplicationComponent {
     RentPresenter getRentPresenter();
     LoginPresenter getLoginPresenter();
     MainMapPresenter getMainMapPresenter();
+    CarsPresenter getCarsPresenter();
 }

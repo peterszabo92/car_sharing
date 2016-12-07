@@ -2,38 +2,36 @@ package hu.szakdolgozat.carsharing.data.model;
 
 import android.support.annotation.NonNull;
 
-public class Car {
+public class CarDetail {
 
     public Long id;
-    public CarPosition position;
+    public String brand;
     public String type;
     public String pictureUrl;
-    public String plateNumber;
+    public Transmission transmission;
     public FuelType fuelType;
-    public String reserved;
-    public boolean inactive;
-
-    public int price;
+    public String year;
 
     // Firebase conversion requires an empty default constructor
-    public Car() {
+    public CarDetail() {
     }
 
-    public Car(
+    public CarDetail(
             @NonNull Long id,
-            @NonNull CarPosition position,
+            @NonNull String brand,
             @NonNull String type,
-            @NonNull String plateNumber,
+            @NonNull Transmission transmission,
             @NonNull FuelType fuelType,
-            int price,
+            @NonNull String year,
             @NonNull String pictureUrl) {
 
         this.id = id;
         this.pictureUrl = pictureUrl;
-        this.position = position;
+        this.transmission = transmission;
+        this.brand = brand;
         this.type = type;
-        this.plateNumber = plateNumber;
+        this.year = year;
         this.fuelType = fuelType;
-        this.price = price;
     }
+
 }

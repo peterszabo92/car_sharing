@@ -20,9 +20,9 @@ import butterknife.OnClick;
 import hu.szakdolgozat.carsharing.CarSharingApplication;
 import hu.szakdolgozat.carsharing.R;
 import hu.szakdolgozat.carsharing.about.AboutFragment;
+import hu.szakdolgozat.carsharing.cars.CarsFragment;
 import hu.szakdolgozat.carsharing.controller.CarDataController;
 import hu.szakdolgozat.carsharing.controller.UserController;
-import hu.szakdolgozat.carsharing.data.CarDataManager;
 import hu.szakdolgozat.carsharing.data.FirebaseDatabaseManager;
 import hu.szakdolgozat.carsharing.login.LoginFragment;
 import hu.szakdolgozat.carsharing.login.LoginListener;
@@ -122,6 +122,15 @@ public class MainActivity extends MvpActivity<MainActivityView, MainActivityPres
     }
 
     @Override
+    public void showFleet() {
+        CarsFragment carsFragment = (CarsFragment) Fragment.instantiate(this, CarsFragment.class.getName());
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.main_fragment_container, carsFragment, ABOUT_FRAGMENT_TAG)
+                .commit();
+    }
+
+    @Override
     public void startRentScreen(Long carId) {
         Intent intent = new Intent(this, RentActivity.class);
         Bundle bundle = new Bundle();
@@ -181,6 +190,7 @@ public class MainActivity extends MvpActivity<MainActivityView, MainActivityPres
             resetBottomMenu();
             menuItemLeft.setTextColor(getResources().getColor(R.color.bottom_menu_item_enabled));
             menuItemLeft.getCompoundDrawables()[1].setLevel(1);
+            showFleet();
         }
     }
 
@@ -203,7 +213,6 @@ public class MainActivity extends MvpActivity<MainActivityView, MainActivityPres
             resetBottomMenu();
             menuItemRight.setTextColor(getResources().getColor(R.color.bottom_menu_item_enabled));
             menuItemRight.getCompoundDrawables()[1].setLevel(1);
-
             showAbout();
         }
     }

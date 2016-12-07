@@ -2,12 +2,12 @@
 <level-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:drawable="@drawable/ic_restore"
+        android:drawable="@drawable/ic_drive_disabled"
         android:maxLevel="0"
         android:minLevel="0" />
 
     <item
-        android:drawable="@drawable/ic_restore_blue"
+        android:drawable="@drawable/ic_drive_enabled"
         android:maxLevel="1"
         android:minLevel="1" />
 

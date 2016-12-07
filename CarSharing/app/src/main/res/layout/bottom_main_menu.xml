@@ -13,7 +13,7 @@
         android:layout_weight="1"
         android:drawableTop="@drawable/icon_menu_reserve"
         android:gravity="center"
-        android:text="@string/bottom_menu_start_rent"
+        android:text="@string/bottom_menu_fleet"
         android:textColor="@color/bottom_menu_item_enabled" />
 
     <TextView

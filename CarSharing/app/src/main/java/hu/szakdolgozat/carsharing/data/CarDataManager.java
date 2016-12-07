@@ -18,7 +18,9 @@ import hu.szakdolgozat.carsharing.TestUtils;
 import hu.szakdolgozat.carsharing.controller.CarDataController;
 import hu.szakdolgozat.carsharing.controller.UserController;
 import hu.szakdolgozat.carsharing.data.model.Car;
+import hu.szakdolgozat.carsharing.data.model.CarDetail;
 import hu.szakdolgozat.carsharing.data.model.CarPosition;
+import hu.szakdolgozat.carsharing.data.model.FuelType;
 import rx.Observable;
 import rx.Subscriber;
 
@@ -87,12 +89,49 @@ public class CarDataManager implements CarDataController {
                     carPosition,
                     testCarNames[(int) (Math.random() * 6) % 6],
                     "ABC-123",
-                    Car.FuelType.values()[(int) (Math.random() * (Car.FuelType.values().length))],
+                    FuelType.values()[(int) (Math.random() * (FuelType.values().length))],
                     2500,
                     "https://www.enterprise.com/content/dam/global-vehicle-images/cars/FORD_FOCU_2012-1.png");
             cars.add(car);
         }
         return cars;
+    }
+
+    @Override
+    public Observable<List<CarDetail>> getCarDetails() {
+        return Observable.create(new Observable.OnSubscribe<List<CarDetail>>() {
+            @Override
+            public void call(final Subscriber<? super List<CarDetail>> subscriber) {
+                new FirebaseDatabaseManager().readData("fleet", new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        try {
+                            List<CarDetail> carDetails = new ArrayList<CarDetail>();
+
+                            for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                                CarDetail carDetail = dataSnapshot1.getValue(CarDetail.class);
+                                carDetails.add(carDetail);
+                            }
+
+                            subscriber.onNext(carDetails);
+                            subscriber.onCompleted();
+                            valueEventListener = null;
+                        } catch (Exception e) {
+                            if (BuildConfig.DEBUG) {
+                                e.printStackTrace();
+                            }
+                            subscriber.onError(new JSONException(""));
+                            valueEventListener = null;
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        subscriber.onError(new Throwable("Database error"));
+                    }
+                });
+            }
+        });
     }
 
     @Override
